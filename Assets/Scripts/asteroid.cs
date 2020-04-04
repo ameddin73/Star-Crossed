@@ -14,7 +14,7 @@ public class Asteroid : MonoBehaviour
     {
         // generate screenbounds for interactions
         _screenBounds =
-            Camera.main.ViewportToWorldPoint(new Vector3(0, 0, Camera.main.nearClipPlane));
+            Camera.main.ViewportToWorldPoint(new Vector3(1, 1, Camera.main.nearClipPlane));
         
         // Set initial velocity
         _rigidbody2D = this.GetComponent<Rigidbody2D>();
@@ -35,10 +35,10 @@ public class Asteroid : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (transform.position.x < _screenBounds.x * 2 ||
-            transform.position.x > -_screenBounds.x * 2 ||
-            transform.position.y < _screenBounds.y * 2 ||
-            transform.position.y > -_screenBounds.y * 2)
+        if (transform.position.x > _screenBounds.x * 2 ||
+            transform.position.x < -_screenBounds.x * 2 ||
+            transform.position.y > _screenBounds.y * 2 ||
+            transform.position.y < -_screenBounds.y * 2)
         {
             Destroy(this.gameObject);
         }
