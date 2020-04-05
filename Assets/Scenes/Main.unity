@@ -153,8 +153,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   asteroidPrefab: {fileID: 6017447727536080372, guid: 068fda89bffd9044fabbadc94f86720d,
     type: 3}
-  respawnTime: 1
-  startingCount: 5
+  respawnTime: 0.74
+  startingCount: 10
   minScale: -0.15
   maxScale: 0.1
 --- !u!20 &519420031
