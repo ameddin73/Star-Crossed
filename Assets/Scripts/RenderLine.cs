@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class RenderLine : MonoBehaviour
 {
-    public GameObject linePrefab;
+    public LineRender linePrefab;
     
     // Start is called before the first frame update
     void Start()
@@ -13,11 +13,17 @@ public class RenderLine : MonoBehaviour
         
     }
 
-    private void Update()
+    private void OnMouseEnter()
     {
-        if (Input.GetMouseButtonDown(0) || Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
+        if (Input.GetMouseButton(0) || Input.touchCount > 0)
         {
-            Instantiate(linePrefab);
+            OnMouseDown();
         }
+    }
+
+    private void OnMouseDown()
+    {
+            linePrefab.startAsteroid = this.gameObject;
+            Instantiate(linePrefab);
     }
 }

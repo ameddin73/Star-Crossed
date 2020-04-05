@@ -7,6 +7,9 @@ using UnityEngine;
 public class LineRender : MonoBehaviour
 {
     private LineRenderer _lineRenderer;
+    public GameObject startAsteroid, endAsteroid;
+    
+    private bool _complete;
     
     // Start is called before the first frame update
     void Start()
@@ -15,14 +18,27 @@ public class LineRender : MonoBehaviour
         
         // Set start position
         _lineRenderer.positionCount = 2;
-        _lineRenderer.SetPosition(0, GetPosition());
-        _lineRenderer.SetPosition(1, GetPosition());
+        // _lineRenderer.SetPosition(0, GetPosition());
+        // _lineRenderer.SetPosition(1, GetPosition());
     }
 
     // Update is called once per frame
     void Update()
     {
-        _lineRenderer.SetPosition(1, GetPosition());
+        // Set start position to asteroid and end position to mouse/end asteroid
+        _lineRenderer.SetPosition(0, startAsteroid.transform.position);
+        _lineRenderer.SetPosition(1, !_complete ? GetPosition() : endAsteroid.transform.position);
+        
+        // check if new position intersects w/ an asteroid
+        Collider2D overlapPoint = Physics2D.OverlapPoint(_lineRenderer.GetPosition(1));
+        if (!_complete && overlapPoint && overlapPoint.gameObject != startAsteroid)
+        {
+            Debug.Log("Overlap Point: " + _lineRenderer.GetPosition(1));
+            _complete = true;
+            endAsteroid = overlapPoint.gameObject;
+
+        }
+
         if (Input.GetMouseButtonUp(0) && Input.touchCount == 0)
         {
             Destroy(this.gameObject);

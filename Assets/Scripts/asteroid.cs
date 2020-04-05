@@ -9,17 +9,16 @@ public class Asteroid : MonoBehaviour
     public float minSpeed = 1.0f;
     public float maxSpeed = 10.0f;
     public float slowSpeed = 0.01f;
+    public float maxRotation = 100f;
     public float massMultiplier = 100f;
-    private Collider _collider;
+    private Collider2D _collider;
     private Rigidbody2D _rigidbody2D;
     private Vector2 _screenBounds;
-    private float _startSpeed;
-    private float _startBounce;
+    private float _startSpeed, _startRotation;
     
     // Start is called before the first frame update
     void Start()
     {
-        _collider = GetComponent<Collider>();
         // generate screenbounds for interactions
         _screenBounds =
             Camera.main.ViewportToWorldPoint(new Vector3(1, 1, Camera.main.nearClipPlane));
@@ -38,6 +37,9 @@ public class Asteroid : MonoBehaviour
             yVelocity = -yVelocity;
         }
         _rigidbody2D.velocity = new Vector2(xVelocity, yVelocity);
+
+        _startRotation = Random.Range(-maxRotation, maxRotation);
+        _rigidbody2D.angularVelocity = _startRotation;
     }
 
     // Update is called once per frame
@@ -48,17 +50,26 @@ public class Asteroid : MonoBehaviour
 
     private void OnMouseDown()
     {
-        _rigidbody2D.velocity *= slowSpeed;
+        var velocity = _rigidbody2D.velocity;
+        _startSpeed = velocity.magnitude;
+        velocity *= slowSpeed;
+        _rigidbody2D.velocity = velocity;
+
         _rigidbody2D.mass *= massMultiplier;
-        _startBounce = _collider.material.bounciness;
-        _collider.material.bounciness = 0;
+        
+        _rigidbody2D.angularVelocity *= slowSpeed;
     }
 
     private void OnMouseUp()
     {
-        _rigidbody2D.velocity *= _startSpeed / _rigidbody2D.velocity.magnitude;
+        var velocity = _rigidbody2D.velocity;
+        velocity *= _startSpeed / velocity.magnitude;
+        _rigidbody2D.velocity = velocity;
+        
         _rigidbody2D.mass /= massMultiplier;
-        _collider.material.bounciness = _startBounce;
+
+        float angularVelocity = _rigidbody2D.angularVelocity;
+        _rigidbody2D.angularVelocity = Random.Range(maxRotation / 4, maxRotation / 2) * (angularVelocity/Mathf.Abs(angularVelocity));
     }
 
     private void TestBounds()
@@ -71,4 +82,13 @@ public class Asteroid : MonoBehaviour
             Destroy(this.gameObject);
         }
     }
+    
+    private void OnMouseEnter()
+    {
+        if (Input.GetMouseButton(0) || Input.touchCount > 0)
+        {
+            OnMouseDown();
+        }
+    }
+
 }

@@ -10,11 +10,12 @@ GameObject:
   m_Component:
   - component: {fileID: 6017447727536080383}
   - component: {fileID: 6017447727536080376}
-  - component: {fileID: 6017447727536080377}
   - component: {fileID: 6017447727536080378}
   - component: {fileID: 6017447727536080379}
-  m_Layer: 0
-  m_Name: asteroid
+  - component: {fileID: 114235978463729740}
+  - component: {fileID: 7281097215723255542}
+  m_Layer: 8
+  m_Name: Asteroid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -68,8 +69,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1669930989
+  m_SortingLayer: -1
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: daaa9ad5656d94f86b07dff66f662aef, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -82,22 +83,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!58 &6017447727536080377
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6017447727536080372}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 6200000, guid: 69631918c475b1f4bb2b06616784d096, type: 2}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 1.19
 --- !u!50 &6017447727536080378
 Rigidbody2D:
   serializedVersion: 4
@@ -135,3 +120,33 @@ MonoBehaviour:
   maxSpeed: 2
   slowSpeed: 0.1
   massMultiplier: 10
+--- !u!114 &114235978463729740
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6017447727536080372}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41085dbd2a13dd6468648269fc767798, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  linePrefab: {fileID: 7386762753548635553, guid: c03cac6c671209141a8aea2b5050428a,
+    type: 3}
+--- !u!58 &7281097215723255542
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6017447727536080372}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 1.19
