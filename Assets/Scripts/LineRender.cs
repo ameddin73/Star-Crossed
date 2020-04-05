@@ -7,6 +7,7 @@ using UnityEngine;
 public class LineRender : MonoBehaviour
 {
     private LineRenderer _lineRenderer;
+    private ShapeMaker shapeMaker;
     public GameObject startAsteroid, endAsteroid;
     
     private bool _complete;
@@ -15,6 +16,7 @@ public class LineRender : MonoBehaviour
     void Start()
     {
         _lineRenderer = GetComponent<LineRenderer>();
+        shapeMaker = Camera.main.GetComponent<ShapeMaker>();
         
         // Set start position
         _lineRenderer.positionCount = 2;
@@ -41,7 +43,7 @@ public class LineRender : MonoBehaviour
 
         if (Input.GetMouseButtonUp(0) && Input.touchCount == 0)
         {
-            Destroy(this.gameObject);
+            shapeMaker.Destroy(this);
         }
     }
 
@@ -62,5 +64,10 @@ public class LineRender : MonoBehaviour
         }
         Debug.Log("Mouse: " + position);
         return position;
+    }
+
+    private void OnDestroy()
+    {
+        shapeMaker.Destroy(this);
     }
 }

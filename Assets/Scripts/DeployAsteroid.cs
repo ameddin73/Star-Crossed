@@ -4,17 +4,20 @@ using UnityEngine;
 
 public class DeployAsteroid : MonoBehaviour
 {
-    public GameObject asteroidPrefab;
+    public Asteroid asteroidPrefab;
 
     public float respawnTime = 1.0f;
     public int startingCount = 5;
-    public float minScale = -0.15f;
+    public float minScale = -0.01f;
     public float maxScale = 0.1f;
     private Vector2 _screenBounds;
+    private ShapeMaker shapeMaker;
     
     // Start is called before the first frame update
     void Start()
     {
+        shapeMaker = Camera.main.GetComponent<ShapeMaker>();
+        
         _screenBounds =
             Camera.main.ViewportToWorldPoint(new Vector3(1, 1, Camera.main.nearClipPlane));
         StartCoroutine(AsteroidWave());
@@ -27,16 +30,18 @@ public class DeployAsteroid : MonoBehaviour
 
     private void SpawnAsteroid()
     {
-        GameObject newAsteroid = Instantiate(asteroidPrefab) as GameObject;
+        Asteroid newAsteroid = Instantiate(asteroidPrefab);
         float scale = Random.Range(minScale, maxScale);
         Vector3 scaleChange = new Vector2(scale, scale);
-        newAsteroid.transform.localScale += scaleChange;
+        newAsteroid.transform.localScale -= newAsteroid.transform.localScale - scaleChange;
         
         // Spawn in screen-bounding rectangle
         float xSpawnRange = (float) (_screenBounds.x * 1.5);
         float ySpawnRange = (float) (_screenBounds.y * 1.5);
         newAsteroid.transform.position =
             new Vector2(Position(_screenBounds.x, xSpawnRange), Position(_screenBounds.y, ySpawnRange));
+        
+        shapeMaker.AddAsteroid(newAsteroid);
     }
 
     private float Position(float screenBound, float spawnRange)

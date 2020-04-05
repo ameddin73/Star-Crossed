@@ -6,11 +6,12 @@ using UnityEngine;
 public class RenderLine : MonoBehaviour
 {
     public LineRender linePrefab;
+    private ShapeMaker shapeMaker;
     
     // Start is called before the first frame update
     void Start()
     {
-        
+        shapeMaker = Camera.main.GetComponent<ShapeMaker>();
     }
 
     private void OnMouseEnter()
@@ -23,7 +24,9 @@ public class RenderLine : MonoBehaviour
 
     private void OnMouseDown()
     {
-            linePrefab.startAsteroid = this.gameObject;
-            Instantiate(linePrefab);
+
+        LineRender lineRender = Instantiate(linePrefab);
+        lineRender.startAsteroid = this.gameObject;
+        shapeMaker.AddLine(lineRender);
     }
 }

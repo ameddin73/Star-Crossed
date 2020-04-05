@@ -11,6 +11,7 @@ public class Asteroid : MonoBehaviour
     public float slowSpeed = 0.01f;
     public float maxRotation = 100f;
     public float massMultiplier = 100f;
+    public ShapeMaker shapeMaker;
     private Collider2D _collider;
     private Rigidbody2D _rigidbody2D;
     private Vector2 _screenBounds;
@@ -19,6 +20,7 @@ public class Asteroid : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        shapeMaker = Camera.main.GetComponent<ShapeMaker>();
         // generate screenbounds for interactions
         _screenBounds =
             Camera.main.ViewportToWorldPoint(new Vector3(1, 1, Camera.main.nearClipPlane));
@@ -79,7 +81,7 @@ public class Asteroid : MonoBehaviour
             transform.position.y > _screenBounds.y * 2 ||
             transform.position.y < -_screenBounds.y * 2)
         {
-            Destroy(this.gameObject);
+            shapeMaker.Destroy(this);
         }
     }
     
@@ -91,4 +93,8 @@ public class Asteroid : MonoBehaviour
         }
     }
 
+    private void OnDestroy()
+    {
+        shapeMaker.Destroy(this);
+    }
 }
