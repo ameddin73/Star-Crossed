@@ -62,17 +62,17 @@ public class Asteroid : MonoBehaviour
         _rigidbody2D.angularVelocity *= slowSpeed;
     }
 
-    private void OnMouseUp()
-    {
-        var velocity = _rigidbody2D.velocity;
-        velocity *= _startSpeed / velocity.magnitude;
-        _rigidbody2D.velocity = velocity;
-        
-        _rigidbody2D.mass /= massMultiplier;
-
-        float angularVelocity = _rigidbody2D.angularVelocity;
-        _rigidbody2D.angularVelocity = Random.Range(maxRotation / 4, maxRotation / 2) * (angularVelocity/Mathf.Abs(angularVelocity));
-    }
+    // private void OnMouseUp()
+    // {
+    //     var velocity = _rigidbody2D.velocity;
+    //     velocity *= _startSpeed / velocity.magnitude;
+    //     _rigidbody2D.velocity = velocity;
+    //     
+    //     _rigidbody2D.mass /= massMultiplier;
+    //
+    //     float angularVelocity = _rigidbody2D.angularVelocity;
+    //     _rigidbody2D.angularVelocity = Random.Range(maxRotation / 4, maxRotation / 2) * (angularVelocity/Mathf.Abs(angularVelocity));
+    // }
 
     private void TestBounds()
     {

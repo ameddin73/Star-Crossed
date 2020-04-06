@@ -24,9 +24,11 @@ public class RenderLine : MonoBehaviour
 
     private void OnMouseDown()
     {
-
-        LineRender lineRender = Instantiate(linePrefab);
-        lineRender.startAsteroid = this.gameObject;
-        shapeMaker.AddLine(lineRender);
+        if (shapeMaker.FreeAsteroid(this.gameObject))
+        {
+            LineRender lineRender = Instantiate(linePrefab);
+            lineRender.startAsteroid = this.gameObject;
+            shapeMaker.AddLine(lineRender);
+        }
     }
 }

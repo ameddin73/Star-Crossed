@@ -29,25 +29,31 @@ public class LineRender : MonoBehaviour
     {
         // Set start position to asteroid and end position to mouse/end asteroid
         _lineRenderer.SetPosition(0, startAsteroid.transform.position);
-        _lineRenderer.SetPosition(1, !_complete ? GetPosition() : endAsteroid.transform.position);
+        _lineRenderer.SetPosition(1, !_complete ? FindInputPosition() : endAsteroid.transform.position);
         
         // check if new position intersects w/ an asteroid
         Collider2D overlapPoint = Physics2D.OverlapPoint(_lineRenderer.GetPosition(1));
-        if (!_complete && overlapPoint && overlapPoint.gameObject != startAsteroid)
+        if (!_complete && overlapPoint && overlapPoint.gameObject != startAsteroid
+            && shapeMaker.FreeAsteroid(overlapPoint.gameObject))
         {
             Debug.Log("Overlap Point: " + _lineRenderer.GetPosition(1));
             _complete = true;
             endAsteroid = overlapPoint.gameObject;
-
         }
 
         if (Input.GetMouseButtonUp(0) && Input.touchCount == 0)
         {
+            shapeMaker.EjectAsteroids();
             shapeMaker.Destroy(this);
         }
     }
 
-    private Vector3 GetPosition()
+    public Vector2[] GetPositions()
+    {
+        return new Vector2[]{_lineRenderer.GetPosition(0), _lineRenderer.GetPosition(1)};
+    }
+
+    private Vector3 FindInputPosition()
     {
         Vector2 position = new Vector2();
         if (Input.GetMouseButton(0))

@@ -8,8 +8,8 @@ public class DeployAsteroid : MonoBehaviour
 
     public float respawnTime = 1.0f;
     public int startingCount = 5;
-    public float minScale = -0.01f;
-    public float maxScale = 0.1f;
+    public float minScale = 0.1f;
+    public float maxScale = 0.3f;
     private Vector2 _screenBounds;
     private ShapeMaker shapeMaker;
     
@@ -33,7 +33,7 @@ public class DeployAsteroid : MonoBehaviour
         Asteroid newAsteroid = Instantiate(asteroidPrefab);
         float scale = Random.Range(minScale, maxScale);
         Vector3 scaleChange = new Vector2(scale, scale);
-        newAsteroid.transform.localScale -= newAsteroid.transform.localScale - scaleChange;
+        newAsteroid.transform.localScale = scaleChange;
         
         // Spawn in screen-bounding rectangle
         float xSpawnRange = (float) (_screenBounds.x * 1.5);
