@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class LineCollider : MonoBehaviour
 {
-
     private LineRender _lineRender;
 
     public LineRender LineRender
@@ -17,12 +16,16 @@ public class LineCollider : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Update();
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        _lineRender.Collide(other.gameObject);
-        other.GetComponent<RenderLine>().Collide();
+        if (other.CompareTag("Asteroid"))
+        {
+            _lineRender.Collide(other.gameObject);
+            other.GetComponent<RenderLine>().Collide();
+        }
     }
 
     // Update is called once per frame

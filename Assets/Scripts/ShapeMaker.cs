@@ -16,7 +16,7 @@ public class ShapeMaker : MonoBehaviour
     // Update is called once per frame
     void LateUpdate()
     {
-        if (_lines.Count > 3 && ReferenceEquals(_lines[0].startAsteroid, _lines[_lines.Count - 1].startAsteroid))
+        if (_lines.Count > 2 && ReferenceEquals(_lines[0].startAsteroid, _lines[_lines.Count - 1].endAsteroid))
         {
             List<Vector2> vertices = new List<Vector2>();
             foreach (var VARIABLE in _lines)

@@ -20,7 +20,6 @@ public static class ShapeValidator
             BC = vectors[i + 1] - vectors[i];
             var angle = Vector2.SignedAngle(AB, BC);
 
-            Debug.Log("prevAngle: " + prevAngle + " | angle: " + angle);
             if (prevAngle / Mathf.Abs(prevAngle) != angle / Mathf.Abs(angle))
             {
                 return false;
