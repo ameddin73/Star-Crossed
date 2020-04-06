@@ -46,7 +46,7 @@ public class ShapeMaker : MonoBehaviour
         int i = 0;
         while (i + 1 < _lines.Count)
         {
-            if (!_lines[i].IsComplete() || !_lines[i + 1].IsComplete()) continue;
+            if (!_lines[i].IsComplete() || !_lines[i + 1].IsComplete()) break;
             
             Vector2 firstLine = _lines[i].GetComponent<LineRenderer>().GetPosition(1) -
                                 _lines[i].GetComponent<LineRenderer>().GetPosition(0);

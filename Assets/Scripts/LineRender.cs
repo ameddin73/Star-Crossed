@@ -36,7 +36,6 @@ public class LineRender : MonoBehaviour
         if (!_complete && overlapPoint && overlapPoint.gameObject != startAsteroid
             && shapeMaker.FreeAsteroid(overlapPoint.gameObject))
         {
-            Debug.Log("Overlap Point: " + _lineRenderer.GetPosition(1));
             _complete = true;
             endAsteroid = overlapPoint.gameObject;
         }
@@ -63,16 +62,13 @@ public class LineRender : MonoBehaviour
         if (Input.GetMouseButton(0))
         {
             position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Debug.Log("Mouse: " + position);
         }
 
         if (Input.touchCount > 0)
         {
             position = new Vector2(Input.GetTouch(0).position.x, Input.GetTouch(0).position.y);
             position = Camera.main.ScreenToWorldPoint(position);
-        Debug.Log("Touch: " + position);
         }
-        Debug.Log("Mouse: " + position);
         return position;
     }
 
