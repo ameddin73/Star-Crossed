@@ -139,3 +139,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab24f5cc4f1e5fa4895888094f6a574d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  startAsteroid: {fileID: 0}
+  endAsteroid: {fileID: 0}
+  lineCollider: {fileID: 114227558796743078, guid: 862c857cae6453f41b9de7ccc8036029,
+    type: 3}

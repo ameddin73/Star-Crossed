@@ -14,6 +14,11 @@ public class RenderLine : MonoBehaviour
         shapeMaker = Camera.main.GetComponent<ShapeMaker>();
     }
 
+    public void Collide()
+    {
+        OnMouseDown();
+    }
+
     private void OnMouseEnter()
     {
         if (Input.GetMouseButton(0) || Input.touchCount > 0)
@@ -24,7 +29,7 @@ public class RenderLine : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if (shapeMaker.FreeAsteroid(this.gameObject))
+        if (!shapeMaker.IsStartAsteroid(this.gameObject))
         {
             LineRender lineRender = Instantiate(linePrefab);
             lineRender.startAsteroid = this.gameObject;

@@ -110,28 +110,41 @@ public class ShapeMaker : MonoBehaviour
         position = max - (max - min) / 2;
         return position;
     }
+    
+    public bool IsStartAsteroid(GameObject asteroid)
+    {
+        foreach (var VARIABLE in _lines)
+        {
+            if (ReferenceEquals(VARIABLE.startAsteroid, asteroid))
+                return true;
+        }
 
-    public bool FreeAsteroid(GameObject asteroid)
+        return false;
+    }
+
+    public bool IsEndAsteroid(GameObject asteroid)
     {
         foreach (var VARIABLE in _lines)
         {
             if (ReferenceEquals(VARIABLE.endAsteroid, asteroid))
-                return false;
+                return true;
         }
 
-        return true;
+        return false;
     }
 
     public void Destroy(LineRender victim)
     {
         _lines.Remove(victim);
-        Destroy(victim.gameObject);
+        if (victim)
+            Destroy(victim.gameObject);
     }
 
     public void Destroy(Asteroid victim)
     {
         _asteroids.Remove(victim);
-        Destroy(victim.gameObject);
+        if (victim)
+            Destroy(victim.gameObject);
     }
 
     public void AddLine(LineRender line)
