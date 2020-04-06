@@ -9,17 +9,26 @@ public static class ShapeValidator
         vectors.Add(vectors[0]);
 
         int i = 1;
-        float angle = 0;
-        float prevAngle = Vector2.SignedAngle(vectors[0], vectors[1]);
-        while (i < vectors.Count + 2)
+        Vector2 AB = vectors[i - 1] - vectors[i];
+        Vector2 BC = vectors[i + 1] - vectors[i];
+        var prevAngle = Vector2.SignedAngle(AB, BC);
+        i++;
+        
+        while (i + 1 < vectors.Count)
         {
-            angle = Vector2.SignedAngle(vectors[i], vectors[i + 1]);
-            if (Math.Abs(prevAngle / Mathf.Abs(prevAngle) - angle / Mathf.Abs(angle)) < 0.1)
+            AB = vectors[i - 1] - vectors[i];
+            BC = vectors[i + 1] - vectors[i];
+            var angle = Vector2.SignedAngle(AB, BC);
+
+            Debug.Log("prevAngle: " + prevAngle + " | angle: " + angle);
+            if (prevAngle / Mathf.Abs(prevAngle) != angle / Mathf.Abs(angle))
             {
                 return false;
             }
+
             i++;
         }
+
         return true;
     }
 }
