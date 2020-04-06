@@ -122,6 +122,7 @@ MonoBehaviour:
   maxRotation: 100
   massMultiplier: 10
   ejectTime: 1
+  badSeed: 0.15
   blueAsteroid: {fileID: 2100000, guid: 96e2dbbf3e9eea148a96e47ae11a042f, type: 2}
   redAsteroid: {fileID: 2100000, guid: 6a85741526575e74b9391e99b7952ac6, type: 2}
   shapeMaker: {fileID: 0}

@@ -12,15 +12,16 @@ public class Asteroid : MonoBehaviour
     public float maxRotation = 100f;
     public float massMultiplier = 100f;
     public float ejectTime = 1f;
+    public float badSeed = 0.1f;
     public Material blueAsteroid, redAsteroid;
     public ShapeMaker shapeMaker;
     private Collider2D _collider;
     private Rigidbody2D _rigidbody2D;
     private Vector2 _screenBounds;
     private float _startSpeed, _startRotation;
-    private bool _ejected;
+    private bool _bad;
 
-    public bool Ejected => _ejected;
+    public bool Bad => _bad;
 
     // Start is called before the first frame update
     void Start()
@@ -29,7 +30,7 @@ public class Asteroid : MonoBehaviour
         // generate screenbounds for interactions
         _screenBounds =
             Camera.main.ViewportToWorldPoint(new Vector3(1, 1, Camera.main.nearClipPlane));
-        
+
         // Set initial velocity
         _rigidbody2D = this.GetComponent<Rigidbody2D>();
         _startSpeed = Random.Range(minSpeed, maxSpeed);
@@ -39,14 +40,23 @@ public class Asteroid : MonoBehaviour
         {
             xVelocity = -xVelocity;
         }
+
         if (transform.position.y > 0)
         {
             yVelocity = -yVelocity;
         }
+
         _rigidbody2D.velocity = new Vector2(xVelocity, yVelocity);
 
+        // Set initial rotation
         _startRotation = Random.Range(-maxRotation, maxRotation);
         _rigidbody2D.angularVelocity = _startRotation;
+
+        // Decide if I'm a bad nut
+        if (Random.value < badSeed)
+        {
+            SetBad();
+        }
     }
 
     // Update is called once per frame
@@ -63,7 +73,7 @@ public class Asteroid : MonoBehaviour
         _rigidbody2D.velocity = velocity;
 
         _rigidbody2D.mass *= massMultiplier;
-        
+
         _rigidbody2D.angularVelocity *= slowSpeed;
     }
 
@@ -77,7 +87,7 @@ public class Asteroid : MonoBehaviour
             shapeMaker.Destroy(this);
         }
     }
-    
+
     private void OnMouseEnter()
     {
         if (Input.GetMouseButton(0) || Input.touchCount > 0)
@@ -86,16 +96,26 @@ public class Asteroid : MonoBehaviour
         }
     }
 
-    public IEnumerator SetEjected()
+    public IEnumerator Eject()
     {
-        _ejected = true;
-        GetComponent<SpriteRenderer>().material = redAsteroid;
+        SetBad();
         yield return new WaitForSeconds(ejectTime);
         if (!shapeMaker.IsStartAsteroid(this.gameObject))
         {
-            GetComponent<SpriteRenderer>().material = blueAsteroid;
-            _ejected = false;
+            SetGood();
         }
+    }
+
+    private void SetGood()
+    {
+        GetComponent<SpriteRenderer>().material = blueAsteroid;
+        _bad = false;
+    }
+
+    private void SetBad()
+    {
+        GetComponent<SpriteRenderer>().material = redAsteroid;
+        _bad = true;
     }
 
     private void OnDestroy()
