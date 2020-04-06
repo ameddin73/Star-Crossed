@@ -52,6 +52,7 @@ public class ShapeMaker : MonoBehaviour
                                 _lines[i].GetComponent<LineRenderer>().GetPosition(0);
             Vector2 secondLine = _lines[i + 1].GetComponent<LineRenderer>().GetPosition(1) -
                                  _lines[i + 1].GetComponent<LineRenderer>().GetPosition(0);
+            i++;
             if (Vector2.Angle(firstLine, secondLine) < 90)
             {
                 return true;
