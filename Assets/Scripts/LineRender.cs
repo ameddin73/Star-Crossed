@@ -21,7 +21,7 @@ public class LineRender : MonoBehaviour
 
         // Set start position
         _lineRenderer.positionCount = 2;
-        
+
         // Create collider
         lineCollider = Instantiate(lineCollider);
         lineCollider.LineRender = this;
@@ -45,9 +45,13 @@ public class LineRender : MonoBehaviour
     {
         if (!_complete && other.gameObject != startAsteroid && !shapeMaker.IsEndAsteroid(other.gameObject))
         {
-            Destroy(lineCollider.gameObject);
-            _complete = true;
-            endAsteroid = other.gameObject;
+            int linesCount = shapeMaker.Lines.Count;
+            if (linesCount <= 1 || other.gameObject != shapeMaker.Lines[shapeMaker.Lines.Count - 2].startAsteroid)
+            {
+                Destroy(lineCollider.gameObject);
+                _complete = true;
+                endAsteroid = other.gameObject;
+            }
         }
     }
 
@@ -89,6 +93,7 @@ public class LineRender : MonoBehaviour
         {
             Destroy(lineCollider.gameObject);
         }
+
         shapeMaker.Destroy(this);
     }
 }

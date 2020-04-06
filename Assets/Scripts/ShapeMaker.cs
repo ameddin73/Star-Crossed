@@ -5,6 +5,11 @@ using UnityEngine;
 public class ShapeMaker : MonoBehaviour
 {
     private List<LineRender> _lines = new List<LineRender>();
+
+    public List<LineRender> Lines => _lines;
+
+    public List<Asteroid> Asteroids => _asteroids;
+
     private List<Asteroid> _asteroids = new List<Asteroid>();
     public float ejectionVelocity = 3;
 
@@ -78,12 +83,14 @@ public class ShapeMaker : MonoBehaviour
             {
                 VARIABLE.startAsteroid.GetComponent<Rigidbody2D>().velocity =
                     (VARIABLE.startAsteroid.transform.position - center).normalized * ejectionVelocity;
+                VARIABLE.startAsteroid.GetComponent<Asteroid>().SetEjected();
             }
 
             if (VARIABLE.endAsteroid != null)
             {
                 VARIABLE.endAsteroid.GetComponent<Rigidbody2D>().velocity =
                     (VARIABLE.endAsteroid.transform.position - center).normalized * ejectionVelocity;
+                VARIABLE.startAsteroid.GetComponent<Asteroid>().SetEjected();
             }
         }
     }
@@ -152,18 +159,8 @@ public class ShapeMaker : MonoBehaviour
         _lines.Add(line);
     }
 
-    public List<LineRender> GetLines()
-    {
-        return _lines;
-    }
-
     public void AddAsteroid(Asteroid asteroid)
     {
         _asteroids.Add(asteroid);
-    }
-
-    public List<Asteroid> GetAsteroids()
-    {
-        return _asteroids;
     }
 }

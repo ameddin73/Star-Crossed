@@ -13,7 +13,7 @@ public static class ShapeValidator
         Vector2 BC = vectors[i + 1] - vectors[i];
         var prevAngle = Vector2.SignedAngle(AB, BC);
         i++;
-        
+
         while (i + 1 < vectors.Count)
         {
             AB = vectors[i - 1] - vectors[i];
@@ -26,6 +26,16 @@ public static class ShapeValidator
             }
 
             i++;
+        }
+
+        // last angle
+        AB = vectors[i - 1] - vectors[0];
+        BC = vectors[1] - vectors[0];
+        var lastAngle = Vector2.SignedAngle(AB, BC);
+
+        if (prevAngle / Mathf.Abs(prevAngle) != lastAngle / Mathf.Abs(lastAngle))
+        {
+            return false;
         }
 
         return true;
