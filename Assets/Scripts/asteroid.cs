@@ -12,6 +12,7 @@ public class Asteroid : MonoBehaviour
     public float maxRotation = 100f;
     public float massMultiplier = 100f;
     public float ejectTime = 1f;
+    public Material blueAsteroid, redAsteroid;
     public ShapeMaker shapeMaker;
     private Collider2D _collider;
     private Rigidbody2D _rigidbody2D;
@@ -88,8 +89,13 @@ public class Asteroid : MonoBehaviour
     public IEnumerator SetEjected()
     {
         _ejected = true;
+        GetComponent<SpriteRenderer>().material = redAsteroid;
         yield return new WaitForSeconds(ejectTime);
-        _ejected = false;
+        if (!shapeMaker.IsStartAsteroid(this.gameObject))
+        {
+            GetComponent<SpriteRenderer>().material = blueAsteroid;
+            _ejected = false;
+        }
     }
 
     private void OnDestroy()

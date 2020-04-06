@@ -21,7 +21,7 @@ public class LineCollider : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Asteroid") && !other.GetComponent<Asteroid>().Ejected)
+        if (other.CompareTag("Asteroid"))
         {
             _lineRender.Collide(other.gameObject);
             other.GetComponent<RenderLine>().Collide();

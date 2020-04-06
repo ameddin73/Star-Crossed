@@ -83,14 +83,14 @@ public class ShapeMaker : MonoBehaviour
             {
                 VARIABLE.startAsteroid.GetComponent<Rigidbody2D>().velocity =
                     (VARIABLE.startAsteroid.transform.position - center).normalized * ejectionVelocity;
-                VARIABLE.startAsteroid.GetComponent<Asteroid>().SetEjected();
+                StartCoroutine(VARIABLE.startAsteroid.GetComponent<Asteroid>().SetEjected());
             }
 
             if (VARIABLE.endAsteroid != null)
             {
                 VARIABLE.endAsteroid.GetComponent<Rigidbody2D>().velocity =
                     (VARIABLE.endAsteroid.transform.position - center).normalized * ejectionVelocity;
-                VARIABLE.startAsteroid.GetComponent<Asteroid>().SetEjected();
+                StartCoroutine(VARIABLE.startAsteroid.GetComponent<Asteroid>().SetEjected());
             }
         }
     }
