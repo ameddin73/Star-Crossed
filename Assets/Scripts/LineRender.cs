@@ -43,7 +43,6 @@ public class LineRender : MonoBehaviour
 
         if (Input.GetMouseButtonUp(0) && Input.touchCount == 0)
         {
-            shapeMaker.EjectAsteroids();
             shapeMaker.Destroy(this);
         }
     }

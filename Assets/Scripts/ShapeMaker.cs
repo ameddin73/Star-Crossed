@@ -30,6 +30,14 @@ public class ShapeMaker : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        if (Input.GetMouseButtonUp(0) || Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended)
+        {
+            EjectAsteroids();
+        }
+    }
+
     public void EjectAsteroids()
     {
         Vector3 center = FindShapeCenter();
@@ -50,11 +58,19 @@ public class ShapeMaker : MonoBehaviour
 
     private Vector2 FindShapeCenter()
     {
+        if (_lines.Count == 0)
+        {
+            return new Vector2(0,0);
+        }
+        
         Vector2 max, min, position;
         max = min = position = _lines[0].GetPositions()[0];
         foreach (var VARIABLE in _lines)
         {
             position = VARIABLE.GetPositions()[0];
+            max = Vector2.Max(max, position);
+            min = Vector2.Min(min, position);
+            position = VARIABLE.GetPositions()[1];
             max = Vector2.Max(max, position);
             min = Vector2.Min(min, position);
         }
