@@ -5,15 +5,13 @@ using UnityEngine;
 
 public class ShapeMaker : MonoBehaviour
 {
-    private List<LineRender> _lines;
-    private List<Asteroid> _asteroids;
+    private List<LineRender> _lines = new List<LineRender>();
+    private List<Asteroid> _asteroids = new List<Asteroid>();
     public float ejectionVelocity = 3;
 
     // Start is called before the first frame update
     void Start()
     {
-        _lines = new List<LineRender>();
-        _asteroids = new List<Asteroid>();
     }
 
     // Update is called once per frame
