@@ -1,6 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using UnityEditor.Experimental.UIElements;
+﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class ShapeMaker : MonoBehaviour
@@ -19,18 +18,47 @@ public class ShapeMaker : MonoBehaviour
     {
         if (_lines.Count > 3 && ReferenceEquals(_lines[0].startAsteroid, _lines[_lines.Count - 1].startAsteroid))
         {
-            while (_lines.Count > 0)
+            List<Vector2> vertices = new List<Vector2>();
+            foreach (var VARIABLE in _lines)
             {
-                Destroy(_lines[0].startAsteroid);
-                Destroy(_lines[0].endAsteroid);
-                Destroy(_lines[0]);
+                vertices.Add(VARIABLE.GetComponent<LineRenderer>().GetPosition(0));
             }
+
+            vertices = vertices.Distinct().ToList();
+            
+            if (ShapeValidator.IsValid(vertices))
+            {
+                GoodShape();
+            }
+            else
+            {
+                BadShape();
+            }
+        }
+    }
+
+    private void BadShape()
+    {
+        EjectAsteroids();
+        while (_lines.Count > 0)
+        {
+            Destroy(_lines[0]);
+        }
+    }
+
+    private void GoodShape()
+    {
+        while (_lines.Count > 0)
+        {
+            Destroy(_lines[0].startAsteroid);
+            Destroy(_lines[0].endAsteroid);
+            Destroy(_lines[0]);
         }
     }
 
     private void Update()
     {
-        if (ConcaveAngle() || Input.GetMouseButtonUp(0) ||
+        if (Input.GetMouseButtonUp(0) ||
             Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended)
         {
             EjectAsteroids();
@@ -39,27 +67,6 @@ public class ShapeMaker : MonoBehaviour
                 Destroy(_lines[0]);
             }
         }
-    }
-
-    private bool ConcaveAngle()
-    {
-        int i = 0;
-        while (i + 1 < _lines.Count)
-        {
-            if (!_lines[i].IsComplete() || !_lines[i + 1].IsComplete()) break;
-            
-            Vector2 firstLine = _lines[i].GetComponent<LineRenderer>().GetPosition(1) -
-                                _lines[i].GetComponent<LineRenderer>().GetPosition(0);
-            Vector2 secondLine = _lines[i + 1].GetComponent<LineRenderer>().GetPosition(1) -
-                                 _lines[i + 1].GetComponent<LineRenderer>().GetPosition(0);
-            i++;
-            if (Vector2.Angle(firstLine, secondLine) < 90)
-            {
-                return true;
-            }
-        }
-
-        return false;
     }
 
     public void EjectAsteroids()
