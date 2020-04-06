@@ -32,10 +32,35 @@ public class ShapeMaker : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetMouseButtonUp(0) || Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended)
+        if (ConcaveAngle() || Input.GetMouseButtonUp(0) ||
+            Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended)
         {
             EjectAsteroids();
+            while (_lines.Count > 0)
+            {
+                Destroy(_lines[0]);
+            }
         }
+    }
+
+    private bool ConcaveAngle()
+    {
+        int i = 0;
+        while (i + 1 < _lines.Count)
+        {
+            if (!_lines[i].IsComplete() || !_lines[i + 1].IsComplete()) continue;
+            
+            Vector2 firstLine = _lines[i].GetComponent<LineRenderer>().GetPosition(1) -
+                                _lines[i].GetComponent<LineRenderer>().GetPosition(0);
+            Vector2 secondLine = _lines[i + 1].GetComponent<LineRenderer>().GetPosition(1) -
+                                 _lines[i + 1].GetComponent<LineRenderer>().GetPosition(0);
+            if (Vector2.Angle(firstLine, secondLine) < 90)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public void EjectAsteroids()
@@ -48,6 +73,7 @@ public class ShapeMaker : MonoBehaviour
                 VARIABLE.startAsteroid.GetComponent<Rigidbody2D>().velocity =
                     (VARIABLE.startAsteroid.transform.position - center).normalized * ejectionVelocity;
             }
+
             if (VARIABLE.endAsteroid != null)
             {
                 VARIABLE.endAsteroid.GetComponent<Rigidbody2D>().velocity =
@@ -60,9 +86,9 @@ public class ShapeMaker : MonoBehaviour
     {
         if (_lines.Count == 0)
         {
-            return new Vector2(0,0);
+            return new Vector2(0, 0);
         }
-        
+
         Vector2 max, min, position;
         max = min = position = _lines[0].GetPositions()[0];
         foreach (var VARIABLE in _lines)

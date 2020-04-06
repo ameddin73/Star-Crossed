@@ -47,6 +47,11 @@ public class LineRender : MonoBehaviour
         }
     }
 
+    public bool IsComplete()
+    {
+        return _complete;
+    }
+
     public Vector2[] GetPositions()
     {
         return new Vector2[]{_lineRenderer.GetPosition(0), _lineRenderer.GetPosition(1)};
