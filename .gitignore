@@ -48,4 +48,5 @@ sysinfo.txt
 crashlytics-build.properties
 
 # Custom
-.idea/
+.idea
+2D_Asteroid_Builds
