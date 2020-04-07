@@ -13,7 +13,7 @@ public class Asteroid : MonoBehaviour
     public float massMultiplier = 100f;
     public float ejectTime = 1f;
     public float badSeed = 0.1f;
-    public Material blueAsteroid, redAsteroid;
+    public Material blueAsteroid, redAsteroid, whiteAsteroid;
     public ShapeMaker shapeMaker;
     private Collider2D _collider;
     private Rigidbody2D _rigidbody2D;
@@ -57,15 +57,21 @@ public class Asteroid : MonoBehaviour
         {
             SetBad();
         }
+        else
+        {
+            SetGood();
+        }
     }
 
     // Update is called once per frame
     private void Update()
     {
         TestBounds();
+        if (shapeMaker.IsStartAsteroid(this.gameObject))
+            IsSelected();
     }
 
-    private void OnMouseDown()
+    private void IsSelected()
     {
         var velocity = _rigidbody2D.velocity;
         _startSpeed = velocity.magnitude;
@@ -75,6 +81,8 @@ public class Asteroid : MonoBehaviour
         _rigidbody2D.mass *= massMultiplier;
 
         _rigidbody2D.angularVelocity *= slowSpeed;
+        
+        GetComponent<SpriteRenderer>().material = whiteAsteroid;
     }
 
     private void TestBounds()
@@ -88,19 +96,11 @@ public class Asteroid : MonoBehaviour
         }
     }
 
-    private void OnMouseEnter()
-    {
-        if (Input.GetMouseButton(0) || Input.touchCount > 0)
-        {
-            OnMouseDown();
-        }
-    }
-
     public IEnumerator Eject()
     {
         SetBad();
         yield return new WaitForSeconds(ejectTime);
-        if (!shapeMaker.IsStartAsteroid(this.gameObject))
+        if (this && !shapeMaker.IsStartAsteroid(this.gameObject))
         {
             SetGood();
         }

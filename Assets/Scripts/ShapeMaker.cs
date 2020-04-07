@@ -19,10 +19,16 @@ public class ShapeMaker : MonoBehaviour
     }
 
     // Update is called once per frame
-    void LateUpdate()
+    void Update()
     {
+        if (Input.GetMouseButtonUp(0) || Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended)
+        {
+            BadShape();
+        }
+
         if (_lines.Count > 2 && ReferenceEquals(_lines[0].startAsteroid, _lines[_lines.Count - 1].endAsteroid))
         {
+            // Get vertices
             List<Vector2> vertices = new List<Vector2>();
             foreach (var VARIABLE in _lines)
             {
@@ -30,7 +36,7 @@ public class ShapeMaker : MonoBehaviour
             }
 
             vertices = vertices.Distinct().ToList();
-            
+
             if (ShapeValidator.IsValid(vertices))
             {
                 GoodShape();
@@ -44,7 +50,15 @@ public class ShapeMaker : MonoBehaviour
 
     private void BadShape()
     {
-        EjectAsteroids();
+        foreach (var VARIABLE in _lines)
+        {
+            if (VARIABLE.startAsteroid.GetComponent<Asteroid>().Bad)
+            {
+                EndGame();
+                break;
+            }
+        }
+        EjectAsteroids(); //sets asteroids bad
         while (_lines.Count > 0)
         {
             Destroy(_lines[0]);
@@ -61,6 +75,7 @@ public class ShapeMaker : MonoBehaviour
             {
                 hasBadAsteroid = true;
             }
+
             Destroy(_lines[0].startAsteroid);
             Destroy(_lines[0].endAsteroid);
             Destroy(_lines[0]);
@@ -68,27 +83,30 @@ public class ShapeMaker : MonoBehaviour
 
         if (hasBadAsteroid)
         {
-            canvas.GetComponent<Score>().EndGame();
-        } else
+            EndGame();
+        }
+        else
         {
             canvas.GetComponent<Score>().IncrementScore(linesCount);
         }
     }
 
-    private void Update()
+    private void EndGame()
     {
-        if (Input.GetMouseButtonUp(0) ||
-            Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended)
+        while (_asteroids.Count > 0)
         {
-            EjectAsteroids();
-            while (_lines.Count > 0)
-            {
-                Destroy(_lines[0]);
-            }
+            Destroy(_asteroids[0]);
         }
+        while (_lines.Count > 0)
+        {
+            Destroy(_lines[0]);
+        }
+
+        canvas.GetComponent<Score>().EndGame();
+        Camera.main.GetComponent<DeployAsteroid>().NewGame();
     }
 
-    public void EjectAsteroids()
+    private void EjectAsteroids()
     {
         Vector3 center = FindShapeCenter();
         foreach (var VARIABLE in _lines)
@@ -131,7 +149,7 @@ public class ShapeMaker : MonoBehaviour
         position = max - (max - min) / 2;
         return position;
     }
-    
+
     public bool IsStartAsteroid(GameObject asteroid)
     {
         foreach (var VARIABLE in _lines)

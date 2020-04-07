@@ -374,8 +374,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   asteroidPrefab: {fileID: 6017447727536080379, guid: 068fda89bffd9044fabbadc94f86720d,
     type: 3}
-  respawnTime: 0.5
-  startingCount: 10
+  respawnTime: 0.3
+  startingCount: 15
   minScale: 0.1
   maxScale: 0.3
 --- !u!20 &519420031
@@ -447,7 +447,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ejectionVelocity: 4.48
-  canvas: {fileID: 0}
+  canvas: {fileID: 924973433}
 --- !u!1 &924973433
 GameObject:
   m_ObjectHideFlags: 0

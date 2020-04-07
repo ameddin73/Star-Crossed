@@ -118,13 +118,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minSpeed: 1
   maxSpeed: 2
-  slowSpeed: 0.1
+  slowSpeed: 0.25
   maxRotation: 100
   massMultiplier: 10
   ejectTime: 1
-  badSeed: 0.15
+  badSeed: 0.25
   blueAsteroid: {fileID: 2100000, guid: 96e2dbbf3e9eea148a96e47ae11a042f, type: 2}
   redAsteroid: {fileID: 2100000, guid: 6a85741526575e74b9391e99b7952ac6, type: 2}
+  whiteAsteroid: {fileID: 2100000, guid: f8c435dad8abda842a7be7287aa5b841, type: 2}
   shapeMaker: {fileID: 0}
 --- !u!114 &114235978463729740
 MonoBehaviour:

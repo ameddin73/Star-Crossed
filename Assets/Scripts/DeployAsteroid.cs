@@ -28,6 +28,15 @@ public class DeployAsteroid : MonoBehaviour
         }
     }
 
+    public void NewGame()
+    {
+        while (startingCount > 0)
+        {
+            SpawnAsteroid();
+            startingCount--;
+        }
+    }
+
     private void SpawnAsteroid()
     {
         Asteroid newAsteroid = Instantiate(asteroidPrefab);
