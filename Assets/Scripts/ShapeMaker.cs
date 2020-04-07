@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class ShapeMaker : MonoBehaviour
 {
+    public float ejectionVelocity = 3;
+    public GameObject canvas;
     private List<LineRender> _lines = new List<LineRender>();
+    private List<Asteroid> _asteroids = new List<Asteroid>();
 
     public List<LineRender> Lines => _lines;
 
     public List<Asteroid> Asteroids => _asteroids;
-
-    private List<Asteroid> _asteroids = new List<Asteroid>();
-    public float ejectionVelocity = 3;
 
     // Start is called before the first frame update
     void Start()
@@ -53,11 +53,25 @@ public class ShapeMaker : MonoBehaviour
 
     private void GoodShape()
     {
+        bool hasBadAsteroid = false;
+        int linesCount = _lines.Count;
         while (_lines.Count > 0)
         {
+            if (_lines[0].startAsteroid.GetComponent<Asteroid>().Bad)
+            {
+                hasBadAsteroid = true;
+            }
             Destroy(_lines[0].startAsteroid);
             Destroy(_lines[0].endAsteroid);
             Destroy(_lines[0]);
+        }
+
+        if (hasBadAsteroid)
+        {
+            canvas.GetComponent<Score>().EndGame();
+        } else
+        {
+            canvas.GetComponent<Score>().IncrementScore(linesCount);
         }
     }
 
