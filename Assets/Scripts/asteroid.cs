@@ -73,6 +73,7 @@ public class Asteroid : MonoBehaviour
 
     private void IsSelected()
     {
+        // TODO slow down but don't stop on touch
         var velocity = _rigidbody2D.velocity;
         _startSpeed = velocity.magnitude;
         velocity *= slowSpeed;
